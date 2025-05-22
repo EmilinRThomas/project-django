@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ package.title }}</title>
+  <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #121212;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f0f0f0;
+    }
+
+    .container {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .package-img {
+      max-height: 450px;
+      object-fit: cover;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      transition: transform 0.3s ease;
+      width: 100%;
+    }
+
+    .package-img:hover {
+      transform: scale(1.02);
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      background-color: #1f1f1f;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .card-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #f4b400;
+    }
+
+    .card-text {
+      font-size: 16px;
+      color: #ccc;
+    }
+
+    .btn-book {
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      background-color: #f4b400;
+      color: #000;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-book:hover {
+      background-color: #e0a800;
+    }
+
+    .btn-secondary {
+      margin-bottom: 25px;
+      background-color: #333;
+      border: none;
+    }
+
+    .btn-secondary:hover {
+      background-color: #444;
+    }
+
+    .detail-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .detail-list li {
+      margin-bottom: 10px;
+      color: #ddd;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-confirm {
+      text-align: center;
+      padding: 30px;
+      background-color: #1f1f1f;
+      border-radius: 12px;
+    }
+
+    .modal-confirm h5 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #f4b400;
+    }
+
+    .modal-confirm p {
+      font-size: 16px;
+      color: #ccc;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+    }
+
+    .btn-success:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <a href="{% url 'home' %}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Back to Packages
+  </a>
+
+  <div class="card mt-3">
+    <img src="{{ package.image.url }}" class="package-img" alt="{{ package.title|default:'Tour Image' }}">
+    <div class="card-body">
+      <h2 class="card-title">{{ package.title }}</h2>
+      <p class="card-text">{{ package.description }}</p>
+
+      <ul class="detail-list">
+        <li><strong>Duration:</strong> {{ package.duration }}</li>
+        <li><strong>Price:</strong> ₹{{ package.price }}</li>
+      </ul>
+
+      {% if user.is_authenticated %}
+        <div class="mt-4">
+          
+          <p class="text-muted mb-2">Proceed to payment:</p>
+          <form>
+            <script src="https://checkout.razorpay.com/v1/payment-button.js"
+                    data-payment_button_id="pl_QXStJZTlRK3bmF"
+                    async>
+            </script>
+          </form>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-book">Login to Book</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-confirm">
+      <div class="modal-body">
+        <h5 class="modal-title mb-3">Booking Confirmed</h5>
+        <p>Your package has been successfully booked!</p>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>
+<script>
+  window.onload = function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+</script>
+</body>
+</html>

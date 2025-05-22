@@ -1,0 +1,172 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background-color: #121212;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #f0f0f0;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .vendor-dashboard {
+        max-width: 1100px;
+        margin: 40px auto 80px;
+        padding: 30px 25px;
+        background-color: #1f1f1f;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .vendor-dashboard h2 {
+        font-weight: 600;
+        color: #f4b400;
+        margin-bottom: 20px;
+    }
+
+    .vendor-dashboard .btn-primary {
+        background-color: #f4b400;
+        border: none;
+        color: #1f1f1f;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .vendor-dashboard .btn-primary:hover {
+        background-color: #e0a800;
+    }
+
+    .vendor-dashboard .btn-outline-danger {
+        border-color: #dc3545;
+        color: #dc3545;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .vendor-dashboard .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .vendor-dashboard .row > div {
+        margin-bottom: 30px;
+    }
+
+    .vendor-dashboard .card {
+        background-color: #1f1f1f;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s ease;
+    }
+
+    .vendor-dashboard .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .vendor-dashboard .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .vendor-dashboard .card-title {
+        font-weight: 600;
+        color: #f0f0f0;
+        margin-bottom: 0.5rem;
+    }
+
+    .vendor-dashboard .card-text {
+        color: #ccc;
+        margin-bottom: 0.75rem;
+    }
+
+    .vendor-dashboard p strong {
+        color: #f4b400;
+    }
+
+    .vendor-dashboard .btn-sm {
+        border-radius: 10px;
+        font-size: 0.9rem;
+        padding: 8px 14px;
+        font-weight: 500;
+    }
+
+    .vendor-dashboard .btn-warning {
+        background-color: #f4b400;
+        color: #1f1f1f;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .vendor-dashboard .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+    .vendor-dashboard .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    .vendor-dashboard .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .text-muted {
+        color: #aaa !important;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="container vendor-dashboard">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Vendor Dashboard</h2>
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger">Logout</a>
+    </div>
+
+    <div class="mb-4 text-end">
+        <a href="{% url 'create_package' %}" class="btn btn-primary">+ Add New Package</a>
+    </div>
+
+    <div class="row">
+        {% for package in packages %}
+        <div class="col-md-4">
+            <div class="card h-100">
+                <img src="{{ package.image.url }}" class="card-img-top" alt="{{ package.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ package.title }}</h5>
+                    <p class="card-text text-muted">{{ package.description|truncatechars:100 }}</p>
+                    <p><strong>Price:</strong> ${{ package.price }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'edit_package' package.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <form method="post" action="{% url 'delete_package' package.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this package?')">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="text-muted">No packages created yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

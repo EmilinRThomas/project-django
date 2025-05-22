@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - TravelNow{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Total Packages</h5>
+          <p class="card-text display-6">24</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Active Bookings</h5>
+          <p class="card-text display-6">89</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Users Registered</h5>
+          <p class="card-text display-6">143</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <h4>Recent Package Submissions</h4>
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Package Name</th>
+          <th>Destination</th>
+          <th>Status</th>
+          <th>Submitted On</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td>1</td>
+          <td>Romantic Paris Getaway</td>
+          <td>France</td>
+          <td><span class="badge bg-success">Approved</span></td>
+          <td>2025-05-18</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Safari Adventure</td>
+          <td>Kenya</td>
+          <td><span class="badge bg-warning text-dark">Pending</span></td>
+          <td>2025-05-17</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
