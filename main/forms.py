@@ -21,9 +21,9 @@ class CustomUserCreationForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data['password'])
+        #user.set_password(self.cleaned_data['password'])
 
-        # Force regular user role
+        
         user.is_staff = False
         user.is_superuser = False
 
